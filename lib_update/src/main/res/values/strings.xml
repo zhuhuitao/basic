@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_update_on_background">正在后台下载新版本</string>
+    <string name="app_update_start_download">开始下载</string>
+    <string name="app_update_start_download_hint">可稍后查看下载进度</string>
+    <string name="app_update_downloading">正在下载新版本</string>
+    <string name="app_update_download_completed">下载完成</string>
+    <string name="app_update_click_hint">点击安装</string>
+    <string name="app_update_download_error">下载出错</string>
+    <string name="app_update_click_download_again">点击继续下载</string>
+    <string name="app_update_is_last_version">当前已是最新版本</string>
+</resources>

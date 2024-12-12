@@ -9,11 +9,11 @@ android {
         viewBinding true
     }
 
-    namespace 'com.atoto.btlock'
+    namespace 'com.huitao.basics'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.atoto.btlock"
+        applicationId "com.huitao.basics"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -54,6 +54,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation project(":lib_basics")
+    implementation project(":lib_update")
 
 
 }

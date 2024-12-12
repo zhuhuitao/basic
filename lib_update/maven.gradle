@@ -1,0 +1,33 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
+def ALIYUN_USERNAME = gradle.ext.ALIYUN_USERNAME
+def ALIYUN_PASSWORD = gradle.ext.ALIYUN_PASSWORD
+
+def isDevelopMode = "true".equalsIgnoreCase(develop_mode)
+def publishingRepo = isDevelopMode ? aliyun_maven_repo_snapshot : aliyun_maven_repo_release
+println("publishingRepo: " + publishingRepo)
+println("password: " + ALIYUN_PASSWORD)
+println("username: " + ALIYUN_USERNAME)
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = lib_update_group
+                artifactId = lib_update_artifact
+                version = isDevelopMode? atoto_lib_update_version + "-SNAPSHOT" : atoto_lib_update_version
+            }
+        }
+        repositories {
+            maven {
+                name = "aliyun_maven"
+                url = uri("https://packages.aliyun.com/623161cc52a8ac963194f2a3/maven/${publishingRepo}")
+                credentials {
+                    username = ALIYUN_USERNAME
+                    password = ALIYUN_PASSWORD
+                }
+            }
+        }
+    }
+}

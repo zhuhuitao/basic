@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+participant Client
+participant DownloadManger
+participant DownloadService
+participant HttpDownloadManger
+
+
+Client -> DownloadManger: 创建构建器
+note right of DownloadManger : aa
+Client -> DownloadManger: build()
+DownloadManger -> DownloadManger: 构建下载管理器
+DownloadManger --> Client: 返回构建的下载管理器
+Client -> DownloadManger : 请求下载
+
+
+
+
+
+@enduml

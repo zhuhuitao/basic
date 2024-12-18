@@ -1,21 +1,91 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
+skinparam backgroundColor #E8E8E8
+skinparam sequenceParticipantBackgroundColor #FFE600
+skinparam sequenceLifeLineBorderColor black
+skinparam sequenceLifeLineBackgroundColor red
+skinparam sequenceBoxBorderColor red
+skinparam sequenceDividerBackgroundColor #14D9D9D9
 
+autonumber
 participant Client
 participant DownloadManger
 participant DownloadService
 participant HttpDownloadManger
+participant Notification
 
 
 Client -> DownloadManger: 创建构建器
-note right of DownloadManger : aa
+note right of DownloadManger : 构建符合自己需要的下载管理器
+
 Client -> DownloadManger: build()
 DownloadManger -> DownloadManger: 构建下载管理器
 DownloadManger --> Client: 返回构建的下载管理器
 Client -> DownloadManger : 请求下载
+DownloadManger -> DownloadManger:检查参数是否合法
+    alt 参数合法
+        DownloadManger -> DownloadManger: 对比传入的版本号和本地版本号
+            alt 需要更新
+                DownloadManger -> DownloadService: 启动DownloadService服务
+            else 不需要更新 toast提示
 
+    else 参数不合法 throw异常 直接返回
 
+    end
+
+DownloadService->DownloadService: init
+DownloadService->DownloadService: 校验apkMd5值是否相同
+    note left: 我们服务器不会返回md5值，所以不用传，\n正常是需要返回文件md5值，避免重复下载
+    alt 文件处理情况
+        DownloadService->DownloadService: 文件存在且相同onDone，走22步安装流程
+    else 文件不存在
+        DownloadService->HttpDownloadManger: 开始下载
+        alt 下载状态
+           HttpDownloadManger->DownloadService:开始下载
+           par 处理开始下载状态逻辑
+           note left: 开始下载
+           DownloadService->Notification:开始下载
+           DownloadService->Client:开始下载
+           end
+           HttpDownloadManger->DownloadService:下载中
+           par 下载进度状态逻辑
+           note left: 下载中
+           DownloadService->Notification:下载中进度更新
+           DownloadService->Client:下载中进度更新
+           end
+           HttpDownloadManger->DownloadService:下载完成
+           par 下载完成状态逻辑
+           note left: 下载完成
+           DownloadService->Notification:下载完成
+           DownloadService->Client:下载完成
+           DownloadService->DownloadService: 准备安装apk
+                alt 安装apk
+
+                par 安装逻辑
+                DownloadService->Intent:Intent安装
+                note left: 需要用户手动确认
+                DownloadService->Silent:静默安装
+                note left: 用户无感知,需要system权限
+                DownloadService->Nothing:不安装
+                note left: 内部不做处理，使用者根据业务处理
+                end
+                end
+           end
+           HttpDownloadManger->DownloadService:下载失败
+           par 下载失败状态逻辑
+           note left: 下载失败
+           DownloadService->Notification:下载失败
+           DownloadService->Client:下载失败
+           end
+           HttpDownloadManger->DownloadService:下载取消
+           par 下载取消状态逻辑
+           note left: 下载取消
+           DownloadService->Notification:下载取消
+           DownloadService->Client:下载取消
+        end
+
+    end
 
 
 

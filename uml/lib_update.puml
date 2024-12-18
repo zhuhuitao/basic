@@ -42,24 +42,24 @@ DownloadService->DownloadService: 校验apkMd5值是否相同
     else 文件不存在
         DownloadService->HttpDownloadManger: 开始下载
         alt 下载状态
-           HttpDownloadManger->DownloadService:开始下载
+           HttpDownloadManger-->DownloadService:开始下载
            par 处理开始下载状态逻辑
            note left: 开始下载
            DownloadService->Notification:开始下载
-           DownloadService->Client:开始下载
+           DownloadService-->Client:开始下载
            end
-           HttpDownloadManger->DownloadService:下载中
+           HttpDownloadManger-->DownloadService:下载中
            par 下载进度状态逻辑
            note left: 下载中
            DownloadService->Notification:下载中进度更新
-           DownloadService->Client:下载中进度更新
+           DownloadService-->Client:下载中进度更新
            end
-           HttpDownloadManger->DownloadService:下载完成
+           HttpDownloadManger-->DownloadService:下载完成
            par 下载完成状态逻辑
            note left: 下载完成
            DownloadService->Notification:下载完成
-           DownloadService->Client:下载完成
-           DownloadService->DownloadService: 准备安装apk
+           DownloadService-->Client:下载完成
+           DownloadService-->DownloadService: 准备安装apk
                 alt 安装apk
 
                 par 安装逻辑
@@ -72,17 +72,17 @@ DownloadService->DownloadService: 校验apkMd5值是否相同
                 end
                 end
            end
-           HttpDownloadManger->DownloadService:下载失败
+           HttpDownloadManger-->DownloadService:下载失败
            par 下载失败状态逻辑
            note left: 下载失败
            DownloadService->Notification:下载失败
-           DownloadService->Client:下载失败
+           DownloadService-->Client:下载失败
            end
-           HttpDownloadManger->DownloadService:下载取消
+           HttpDownloadManger-->DownloadService:下载取消
            par 下载取消状态逻辑
            note left: 下载取消
            DownloadService->Notification:下载取消
-           DownloadService->Client:下载取消
+           DownloadService-->Client:下载取消
         end
 
     end

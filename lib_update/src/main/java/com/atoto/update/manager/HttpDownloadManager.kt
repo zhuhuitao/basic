@@ -1,6 +1,6 @@
 package com.atoto.update.manager
 
-import com.atoto.update.base.BaseHttpDownloadManger
+import com.atoto.update.base.DownloadEngin
 import com.atoto.update.base.DownloadStatus
 import com.atoto.update.config.Constant
 import com.atoto.update.listener.LogInterceptor
@@ -18,9 +18,13 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+
+/**
+ * author:huitao
+ */
 @Suppress("BlockingMethodInNonBlockingContext")
 class HttpDownloadManager(private val path: String, private val logger: LogInterceptor) :
-    BaseHttpDownloadManger() {
+    DownloadEngin() {
     companion object {
         private const val TAG = "HttpDownloadManager"
     }
@@ -89,9 +93,7 @@ class HttpDownloadManager(private val path: String, private val logger: LogInter
         con.disconnect()
     }
 
-    /**
-     * fix https url (SSLHandshakeException) exception
-     */
+
     private fun trustAllHosts() {
         val manager: TrustManager = object : X509TrustManager {
             override fun getAcceptedIssuers(): Array<X509Certificate> {

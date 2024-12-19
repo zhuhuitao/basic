@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * author:huitao
  */
-abstract class BaseHttpDownloadManger {
+abstract class DownloadEngin {
     abstract fun download(url: String, apkName: String): Flow<DownloadStatus>
 
     abstract fun cancel()

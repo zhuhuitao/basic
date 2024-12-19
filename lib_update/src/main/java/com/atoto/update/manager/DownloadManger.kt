@@ -4,10 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.app.NotificationChannel
 import android.content.Intent
-import android.text.TextUtils
 import android.widget.Toast
 import com.atoto.update.R
-import com.atoto.update.base.BaseHttpDownloadManger
+import com.atoto.update.base.DownloadEngin
 import com.atoto.update.config.Constant
 import com.atoto.update.data.UpdateParameters
 import com.atoto.update.exception.MissingParameterException
@@ -19,7 +18,6 @@ import com.atoto.update.listener.LogInterceptor
 import com.atoto.update.listener.OnDownloadListener
 import com.atoto.update.service.DownloadService
 import com.atoto.update.utils.ApkUtil
-import com.atoto.update.utils.LogUtil
 
 /**
  * author:huitao
@@ -158,7 +156,7 @@ class DownloadManger private constructor(builder: ConcreteBuilder) {
             return this
         }
 
-        override fun httpManger(httpManger: BaseHttpDownloadManger): ConcreteBuilder {
+        override fun httpManger(httpManger: DownloadEngin): ConcreteBuilder {
             parameters = parameters.copy(httpDownloadManger = httpManger)
             return this
         }
@@ -219,7 +217,7 @@ class DownloadManger private constructor(builder: ConcreteBuilder) {
 
         fun smallIcon(smallIcon: Int): ConcreteBuilder
 
-        fun httpManger(httpManger: BaseHttpDownloadManger): ConcreteBuilder
+        fun httpManger(httpManger: DownloadEngin): ConcreteBuilder
 
         fun onDownLoadListener(onDownLoadListener: OnDownloadListener): ConcreteBuilder
 

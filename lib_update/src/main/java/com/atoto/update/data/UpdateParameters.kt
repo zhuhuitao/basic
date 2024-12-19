@@ -1,7 +1,7 @@
 package com.atoto.update.data
 
 import android.app.NotificationChannel
-import com.atoto.update.base.BaseHttpDownloadManger
+import com.atoto.update.base.DownloadEngin
 import com.atoto.update.installation.InstallationModel
 import com.atoto.update.listener.LogInterceptor
 
@@ -13,7 +13,7 @@ data class UpdateParameters(
     val apkName: String = "",
     val downloadPath: String? = null,
     val smallIcon: Int = -1,
-    val httpDownloadManger: BaseHttpDownloadManger? = null,
+    val httpDownloadManger: DownloadEngin? = null,
     val logger: LogInterceptor? = null,
     val notificationChannel: NotificationChannel? = null,
     val apkMD5: String = "",
